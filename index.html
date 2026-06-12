@@ -40,15 +40,6 @@ body{font-family:-apple-system,'Microsoft JhengHei','PingFang TC',sans-serif;bac
 .tb-sep2{width:1px;height:18px;background:var(--border)}
 
 /* ─── LOAD BAR ─── */
-.loadbar{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:4px 14px;gap:3px;align-items:flex-end;flex-shrink:0;overflow-x:auto}
-.loadbar::-webkit-scrollbar{height:3px}
-.loadbar::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
-.lb-ttl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-right:4px;white-space:nowrap;align-self:center}
-.lb-item{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:36px}
-.lb-bar-w{height:26px;display:flex;align-items:flex-end;width:100%}
-.lb-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px}
-.lb-ml{font-size:9px;color:var(--muted);white-space:nowrap;font-weight:600}
-.lb-n{font-size:9px;font-weight:700}
 
 /* ═══════════════════════════════════════════
    TABLE VIEW
@@ -211,6 +202,93 @@ td:last-child{border-right:none}
 .gw-today-shade{position:absolute;inset:0;background:rgba(220,38,38,.035);pointer-events:none;z-index:0}
 .gw-empty{font-size:10px;color:#CDD3DC;padding:2px 0}
 
+
+/* ─── CATEGORY MANAGEMENT MODAL ─── */
+.cat-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid var(--border);margin-bottom:6px;background:#FAFBFD}
+.cat-swatch{width:18px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(0,0,0,.1)}
+.cat-name-in{flex:1;border:1px solid var(--border);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit;outline:none;color:var(--text)}
+.cat-name-in:focus{border-color:var(--focus);box-shadow:0 0 0 2px rgba(27,94,153,.1)}
+.cat-color-in{width:32px;height:30px;border:1px solid var(--border);border-radius:5px;cursor:pointer;padding:2px;background:none}
+.cat-usage{font-size:10px;color:var(--muted);white-space:nowrap;min-width:32px;text-align:center}
+.cat-del{background:none;border:1px solid #FCA5A5;border-radius:5px;color:#DC2626;cursor:pointer;padding:3px 8px;font-size:13px;line-height:1;transition:all .12s}
+.cat-del:hover{background:#FEF2F2}
+.cat-del:disabled{opacity:.3;cursor:not-allowed}
+.add-cat-btn{width:100%;padding:8px;border:1px dashed var(--border);border-radius:7px;background:none;cursor:pointer;color:var(--muted);font-size:12px;margin-top:4px;transition:all .12s}
+.add-cat-btn:hover{background:#F8FAFF;color:var(--text)}
+
+
+/* ─── STATUS BADGES ─── */
+.st-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:10px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid;white-space:nowrap;transition:all .12s;user-select:none}
+.st-badge:hover{filter:brightness(.9)}
+.st-planning{color:#6B7A99;border-color:#D0D8E8;background:#F4F6FA}
+.st-active  {color:#1B5E99;border-color:#93C5FD;background:#EBF3FF}
+.st-review  {color:#C0481E;border-color:#FCA5A5;background:#FFF4EF}
+.st-closed  {color:#1A7A44;border-color:#86EFAC;background:#F0FDF4}
+/* Action count badge */
+.ac-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);transition:all .12s}
+.ac-badge:hover{background:#EEF3FF;color:var(--focus);border-color:#93C5FD}
+.ac-badge.pending{color:#C0481E;border-color:#FCA5A5;background:#FFF4EF}
+.ac-badge.all-done{color:#1A7A44;border-color:#86EFAC;background:#F0FDF4}
+/* ─── ACTION PANEL ─── */
+.action-panel{position:fixed;right:0;top:50px;bottom:0;width:360px;background:#fff;border-left:2px solid var(--border);box-shadow:-6px 0 24px rgba(0,0,0,.12);z-index:60;display:none;flex-direction:column;transition:transform .2s}
+.action-panel.open{display:flex}
+.ap-hdr{padding:14px 16px;border-bottom:1px solid var(--border);flex-shrink:0;background:#1A2340;color:#fff}
+.ap-hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.ap-title{font-size:14px;font-weight:800;flex:1}
+.ap-close{background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;border-radius:6px;padding:3px 8px;font-size:15px;line-height:1}
+.ap-close:hover{background:rgba(255,255,255,.25)}
+.ap-act-name{font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-body{flex:1;overflow-y:auto;padding:12px}
+.ap-body::-webkit-scrollbar{width:4px}
+.ap-body::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+.ap-progress{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:11px;color:var(--muted);padding:8px;background:#F8FAFF;border-radius:7px}
+.ap-prog-bar{flex:1;height:5px;background:#E8EDF4;border-radius:3px;overflow:hidden}
+.ap-prog-fill{height:100%;background:#1B5E99;border-radius:3px;transition:width .4s}
+.ap-item{display:flex;align-items:flex-start;gap:8px;padding:9px 10px;border-radius:8px;border:1px solid var(--border);margin-bottom:6px;background:#FAFBFD;transition:all .12s}
+.ap-item:hover{border-color:#C5D2EE;background:#F5F8FF}
+.ap-item.ap-done{opacity:.5}
+.ap-item.ap-done .ap-itxt{text-decoration:line-through;color:var(--muted)}
+.ap-cb{margin-top:2px;width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:#1B5E99}
+.ap-ibody{flex:1;min-width:0}
+.ap-itxt{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;word-break:break-all}
+.ap-imeta{display:flex;gap:10px;margin-top:3px;flex-wrap:wrap}
+.ap-iowner{font-size:10px;color:var(--muted)}
+.ap-idue{font-size:10px;font-weight:700}
+.ap-idue.overdue{color:#DC2626}
+.ap-idel{background:none;border:none;cursor:pointer;color:var(--muted);font-size:14px;padding:0 3px;opacity:.4;transition:opacity .12s;flex-shrink:0}
+.ap-idel:hover{opacity:1;color:#DC2626}
+.ap-empty{text-align:center;color:var(--muted);font-size:12px;padding:30px 0;font-style:italic;line-height:2}
+.ap-add{padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0;background:#F8FAFF;display:flex;flex-direction:column;gap:7px}
+.ap-add-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.ap-add-row{display:flex;gap:6px}
+.ap-inp{border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:12px;font-family:inherit;outline:none;color:var(--text);background:#fff}
+.ap-inp:focus{border-color:var(--focus);box-shadow:0 0 0 2px rgba(27,94,153,.1)}
+.ap-inp-text{flex:1}
+.ap-inp-owner{width:88px}
+.ap-inp-due{width:115px}
+.ap-add-btn{padding:7px 16px;background:#1A2340;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap;transition:all .12s}
+.ap-add-btn:hover{background:#1B5E99}
+/* ─── WORKLOAD VIEW ─── */
+#view-workload{flex:1;overflow:auto;display:none;flex-direction:column;padding:16px 18px;gap:16px;background:var(--bg)}
+.wl-card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:18px 20px}
+.wl-card-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.wl-table{width:100%;border-collapse:collapse;font-size:11px}
+.wl-table th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:5px 6px;text-align:center;background:#F4F6FA;border:1px solid var(--border);white-space:nowrap}
+.wl-table th:first-child{text-align:left;min-width:70px}
+.wl-table td{padding:5px 6px;border:1px solid var(--border);text-align:center;font-weight:700}
+.wl-table td:first-child{text-align:left;font-weight:700}
+.wl-c0{background:#F8FAFF;color:#C8D0DC}
+.wl-c1{background:#DCFCE7;color:#14532D}
+.wl-c2{background:#BBF7D0;color:#14532D}
+.wl-c3{background:#FEF9C3;color:#713F12}
+.wl-c4{background:#FEF08A;color:#713F12}
+.wl-c5{background:#FED7AA;color:#9A3412}
+.wl-c6{background:#FECACA;color:#991B1B}
+.wl-persons{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.wl-person{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:8px;border:1px solid var(--border);background:#F8FAFF}
+.wl-pname{font-size:12px;font-weight:700;color:var(--text)}
+.wl-pcount{font-size:10px;color:var(--muted)}
+.wl-year-toggle{display:flex;gap:6px;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -223,12 +301,15 @@ td:last-child{border-right:none}
     <button class="view-tab active" id="tab-table" onclick="switchView('table')">📋 編輯表格</button>
     <button class="view-tab" id="tab-gantt" onclick="switchView('gantt')">📊 甘特圖</button>
     <button class="view-tab" id="tab-timeline" onclick="switchView('timeline')">📅 時間軸</button>
+    <button class="view-tab" id="tab-workload" onclick="switchView('workload')">📊 人力分析</button>
   </div>
   <div class="tb-sep"></div>
-  <button class="tb-btn" onclick="addRow()">＋ 新增活動</button>
+  <button class="tb-btn" onclick="openCatModal()" style="background:rgba(255,255,255,.08)">⚙ 管理類別</button>
+  <button class="tb-btn primary" onclick="addRow()">＋ 新增活動</button>
   <div class="spacer"></div>
   <button class="tb-btn xl" onclick="exportExcel()">📥 匯出 Excel</button>
   <button class="tb-btn" onclick="exportCSV()">匯出 CSV</button>
+  <button class="tb-btn" onclick="exportIcal()" title="匯出 Google Calendar / Apple 行事曆">📅 匯出行事曆</button>
   <button class="tb-btn" onclick="exportJSON()">匯出 JSON</button>
   <button class="tb-btn" onclick="importJSON()">匯入</button>
   <button class="tb-btn" onclick="resetData()" style="opacity:.55">↺ 還原</button>
@@ -260,8 +341,6 @@ td:last-child{border-right:none}
   <div class="search-w"><span style="color:var(--muted)">🔍</span><input id="search" placeholder="搜尋名稱、負責人…" oninput="onFilter()"></div>
 </div>
 
-<!-- LOAD BAR -->
-<div class="loadbar" id="loadbar"><span class="lb-ttl">會議量能</span></div>
 
 <!-- TABLE VIEW -->
 <div id="view-table">
@@ -293,10 +372,6 @@ td:last-child{border-right:none}
     <button class="yr-tab active" id="yr-all"  onclick="setGanttYear(0)">全覽 2026–2027</button>
     <button class="yr-tab"        id="yr-2026" onclick="setGanttYear(1)">2026</button>
     <button class="yr-tab"        id="yr-2027" onclick="setGanttYear(2)">2027</button>
-    <div class="tb-sep2" style="margin:0 6px;background:var(--border)"></div>
-    <span style="font-size:11px;font-weight:700;color:var(--muted)">單位</span>
-    <button class="yr-tab active" id="gu-month" onclick="setGanttUnit('month')">月</button>
-    <button class="yr-tab"        id="gu-week"  onclick="setGanttUnit('week')">週</button>
     <div class="gantt-legend">
       <div class="leg"><div class="leg-box" style="background:var(--pm)"></div>召開會議</div>
       <div class="leg"><div class="leg-box" style="background:var(--pe)"></div>執行面</div>
@@ -307,7 +382,7 @@ td:last-child{border-right:none}
   <div class="g-outer">
     <!-- Fixed header -->
     <div class="g-hdr-area" id="g-hdr-area">
-      <div class="g-lh" id="g-lh-hdr"><div class="g-lh-title">活動 / 會議</div></div>
+      <div class="g-lh" id="g-lh-hdr" style="display:none"><div class="g-lh-title">活動 / 會議</div></div>
       <div class="g-tl-hdr-scroll" id="g-tl-hdr-scroll">
         <div class="g-tl-hdr" id="g-tl-hdr"></div>
       </div>
@@ -327,7 +402,7 @@ td:last-child{border-right:none}
     <div class="foot-item">🔑 解決問題</div>
     <div class="foot-item">📊 成果檢視</div>
     <div class="foot-sep"></div>
-    <span style="font-size:10px;color:var(--muted);margin-left:auto;font-style:italic">甘特圖自動由編輯表格產生，在表格編輯後切換到此頁即更新</span>
+    <span style="font-size:10px;color:var(--muted);margin-left:auto;font-style:italic">以週為單位 · 每欄為一週 · 齊頭式顯示本週所有會議</span>
   </div>
 <!-- TIMELINE VIEW -->
 <div id="view-timeline" style="display:none;flex:1;overflow:hidden;flex-direction:column">
@@ -372,7 +447,7 @@ td:last-child{border-right:none}
 //    步驟：Firebase Console → 專案設定 → 新增網頁應用程式 → 複製 firebaseConfig
 // ═══════════════════════════════════════════════════════════════
 const FIREBASE_CONFIG = {
-   apiKey: "AIzaSyDxw9s2O7qYZlLZGnTTAgUEA6DOKYl47PE",
+    apiKey: "AIzaSyDxw9s2O7qYZlLZGnTTAgUEA6DOKYl47PE",
   authDomain: "aplus-meeting-69646.firebaseapp.com",
   databaseURL: "https://aplus-meeting-69646-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "aplus-meeting-69646",
@@ -385,7 +460,7 @@ const FIREBASE_CONFIG = {
 // ═══════════════════════════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════════════════════════
-const CATS = {
+let CATS = {
   '年度':'#1B2A4A','季節活動-國小部':'#1B5E99','季節活動-中學部':'#1A7A44',
   '新產品':'#7C3AED','品牌行銷':'#C0481E','行政':'#6B7A99',
   '校務合作':'#2E9E88','特殊':'#B07E0A',
@@ -397,6 +472,12 @@ const MT = {
   '成果檢視':{cls:'mt-review',icon:'📊',color:'#B45309'},
 };
 const PH_COLORS = {'召開會議':'#DC2626','執行面':'#059669','回報期':'#2563EB','校內推廣期':'#D97706'};
+const STATUS_CFG={
+  planning:{icon:'📝',label:'規劃中',cls:'st-planning',next:'active'},
+  active:  {icon:'⚡',label:'進行中',cls:'st-active',  next:'review'},
+  review:  {icon:'🔍',label:'待回報', cls:'st-review',  next:'closed'},
+  closed:  {icon:'✅',label:'已結案',cls:'st-closed',  next:'planning'},
+};
 const PH_SHORT  = {'召開會議':'📋 召開','執行面':'▶ 執行','回報期':'◉ 回報','校內推廣期':'📢 推廣'};
 const MONTH_LABELS=['2026/01','2026/02','2026/03','2026/04','2026/05','2026/06',
   '2026/07','2026/08','2026/09','2026/10','2026/11','2026/12',
@@ -452,20 +533,20 @@ const DEFAULT_DATA=[
 // ═══════════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════════
-let data=[], nextId=200, currentView='table', ganttYear=0, ganttUnit='month', showDone=true, editingCell=null;
+let data=[], nextId=200, currentView='table', ganttYear=0, showDone=true, editingCell=null;
 let filterDepts=new Set(Object.keys(DEPTS)), filterCats=new Set(Object.keys(CATS)), filterMTs=new Set(Object.keys(MT));
 const LBL_W=256; // gantt label col width
 
 function save(){
   if(!_fbRef){
-    try{localStorage.setItem('gantt_v4',JSON.stringify(data));}catch(e){}
+    try{localStorage.setItem('gantt_v4',JSON.stringify({activities:data,categories:CATS}));}catch(e){}
     return;
   }
   if(_saveTO) clearTimeout(_saveTO);
   _saveTO=setTimeout(()=>{
     _justSaved=true;
     setSyncStatus('saving');
-    _fbRef.set({activities:data,ts:Date.now()})
+    _fbRef.set({activities:data,categories:CATS,ts:Date.now()})
       .then(()=>{ setSyncStatus('ok'); setTimeout(()=>_justSaved=false,1500); })
       .catch(e=>{ setSyncStatus('error'); console.error('Firebase save:',e); });
     _saveTO=null;
@@ -473,7 +554,15 @@ function save(){
 }
 function loadData(){
   // Local fallback (used before Firebase loads)
-  try{const d=localStorage.getItem('gantt_v4');if(d){data=JSON.parse(d);nextId=Math.max(...data.map(r=>r.id),199)+1;return;}}catch(e){}
+  try{
+    const raw=localStorage.getItem('gantt_v4');
+    if(raw){
+      const parsed=JSON.parse(raw);
+      if(Array.isArray(parsed)){data=parsed.map(a=>{if(!a.status)a.status=a.done?'closed':'planning';if(!a.actions)a.actions=[];return a;});}
+      else{data=(parsed.activities||[]).map(a=>{if(!a.status)a.status=a.done?'closed':'planning';if(!a.actions)a.actions=[];return a;});if(parsed.categories)CATS=parsed.categories;}
+      nextId=Math.max(...data.map(r=>r.id),199)+1; return;
+    }
+  }catch(e){}
   data=JSON.parse(JSON.stringify(DEFAULT_DATA));nextId=200;
 }
 
@@ -494,24 +583,6 @@ function parsePhStr(str){
 // ═══════════════════════════════════════════════════════════════
 // LOAD BAR
 // ═══════════════════════════════════════════════════════════════
-function calcLoad(){
-  const load=Array(24).fill(0);
-  data.forEach(row=>parsePhStr(row.phMeet).forEach(({startM})=>{const m=Math.floor(startM);if(m>=0&&m<24)load[m]++;}));
-  return load;
-}
-function renderLoadBar(){
-  const lb=document.getElementById('loadbar');
-  while(lb.children.length>1) lb.removeChild(lb.lastChild);
-  const load=calcLoad(), maxL=Math.max(...load,1);
-  load.forEach((n,i)=>{
-    const item=document.createElement('div'); item.className='lb-item';
-    const pct=(n/maxL)*100;
-    const col=n===0?'#E0E7EF':n<=2?'#34D399':n<=4?'#FBBF24':'#EF4444';
-    item.innerHTML=`<div class="lb-bar-w"><div class="lb-bar" style="height:${pct}%;background:${col}"></div></div>
-      <div class="lb-ml">${MONTH_LABELS[i].slice(2)}</div>${n>0?`<div class="lb-n" style="color:${col}">${n}</div>`:''}`;
-    lb.appendChild(item);
-  });
-}
 
 // ═══════════════════════════════════════════════════════════════
 // FILTER CHIPS
@@ -539,7 +610,7 @@ function buildFilterChips(){
     mc.appendChild(c);
   });
 }
-function onFilter(){renderLoadBar();if(currentView==='table')renderTable();else renderGantt();}
+function onFilter(){if(currentView==='table')renderTable();else renderGantt();}
 
 // ═══════════════════════════════════════════════════════════════
 // FILTER DATA
@@ -547,7 +618,7 @@ function onFilter(){renderLoadBar();if(currentView==='table')renderTable();else 
 function getFiltered(){
   const q=(document.getElementById('search')?.value||'').toLowerCase();
   return data.filter(r=>{
-    if(!showDone&&r.done) return false;
+    if(!showDone&&getStatus(r)==='closed') return false;
     if(!filterCats.has(r.cat)) return false;
     if(!r.depts.some(d=>filterDepts.has(d))) return false;
     if(!filterMTs.has(r.mt)) return false;
@@ -560,7 +631,6 @@ function getFiltered(){
 // TABLE VIEW
 // ═══════════════════════════════════════════════════════════════
 function renderTable(){
-  renderLoadBar();
   const filtered=getFiltered();
   document.getElementById('tb-count').textContent=`${filtered.length}/${data.length} 筆`;
   const groups={};Object.keys(CATS).forEach(c=>groups[c]=[]);
@@ -585,7 +655,7 @@ function toggleGroup(cat){
   if(gh) gh.innerHTML=gh.innerHTML.replace(hidden?'▶':'▼',hidden?'▼':'▶');
 }
 function buildRow(row,catColor){
-  const tr=document.createElement('tr'); tr.className='data-row'+(row.done?' done-row':''); tr.dataset.id=row.id; tr.dataset.cat=row.cat;
+  const tr=document.createElement('tr'); tr.className='data-row'+(getStatus(row)==='closed'?' done-row':''); tr.dataset.id=row.id; tr.dataset.cat=row.cat;
   const tc=document.createElement('td'); tc.className='td-cat'; tc.style.cssText=`background:${catColor};padding:0;width:5px`; tr.appendChild(tc);
   tr.appendChild(mkText(row,'name','c-name'));
   tr.appendChild(mkCat(row));
@@ -647,11 +717,24 @@ function mkPhase(row,field,color){
   } else {div.innerHTML='<span class="c-empty">— 未設定</span>';}
   div.onclick=()=>{if(editingCell)return;startEdit(td,div,row,field,false,color);}; td.appendChild(div); return td;
 }
+function getStatus(row){return row.status||(row.done?'closed':'planning');}
 function mkActions(row){
-  const td=document.createElement('td'); td.style.cssText='text-align:center;white-space:nowrap;padding:4px';
-  td.innerHTML=`<button class="act-btn ${row.done?'done-on':''}" onclick="toggleDoneRow(${row.id})" title="${row.done?'恢復':'完成'}">${row.done?'✅':'✓'}</button>
-    <button class="act-btn" onclick="dupRow(${row.id})" title="複製">⧉</button>
-    <button class="act-btn del" onclick="delRow(${row.id})" title="刪除">✕</button>`; return td;
+  const td=document.createElement('td');
+  td.style.cssText='vertical-align:middle;padding:5px 6px;min-width:90px';
+  const st=getStatus(row); const scfg=STATUS_CFG[st];
+  const acts=row.actions||[];
+  const doneActs=acts.filter(a=>a.done).length;
+  const acCls=acts.length===0?'':doneActs===acts.length?'all-done':'pending';
+  const acLabel=acts.length===0?'待辦':`${doneActs}/${acts.length}`;
+  td.innerHTML=`<div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+    <span class="st-badge ${scfg.cls}" onclick="cycleStatus(${row.id})" title="點擊切換狀態">${scfg.icon} ${scfg.label}</span>
+    <div style="display:flex;gap:3px">
+      <span class="ac-badge ${acCls}" onclick="openActionPanel(${row.id})" title="行動項目">📋 ${acLabel}</span>
+      <button class="act-btn" onclick="dupRow(${row.id})" title="複製">⧉</button>
+      <button class="act-btn del" onclick="delRow(${row.id})" title="刪除">✕</button>
+    </div>
+  </div>`;
+  return td;
 }
 
 // ─── INLINE EDIT ───────────────────────────────────────
@@ -727,13 +810,13 @@ function showMTPopup(anchor,row){
 
 // ─── ROW ACTIONS ─────────────────────────────────────
 function addRow(){
-  const row={id:nextId++,name:'新活動',cat:'季節活動-國小部',depts:['教學部'],lead:'',mt:'快速同步',phMeet:'',phExec:'',phReport:'',phPromote:'',notes:'',done:false};
+  const row={id:nextId++,name:'新活動',cat:'季節活動-國小部',depts:['教學部'],lead:'',mt:'快速同步',phMeet:'',phExec:'',phReport:'',phPromote:'',notes:'',done:false,status:'planning',actions:[]};
   data.push(row);save();renderTable();
   setTimeout(()=>{const tr=document.querySelector(`tr.data-row[data-id="${row.id}"]`);if(tr){tr.scrollIntoView({behavior:'smooth',block:'center'});tr.querySelectorAll('td')[1].querySelector('.cell').click();}},120);
 }
 function delRow(id){if(!confirm('確定刪除？'))return;data=data.filter(r=>r.id!==id);save();renderTable();}
 function dupRow(id){const o=data.find(r=>r.id===id);if(!o)return;const c=JSON.parse(JSON.stringify(o));c.id=nextId++;c.name='（複製）'+c.name;data.splice(data.findIndex(r=>r.id===id)+1,0,c);save();renderTable();}
-function toggleDoneRow(id){const r=data.find(x=>x.id===id);if(r){r.done=!r.done;save();renderTable();}}
+function cycleStatus(id){const r=data.find(x=>x.id===id);if(!r)return;const st=getStatus(r);r.status=STATUS_CFG[st].next;r.done=r.status==='closed';save();renderTable();}
 
 // ═══════════════════════════════════════════════════════════════
 // GANTT VIEW
@@ -743,12 +826,6 @@ function setGanttYear(v){
   renderGantt();
 }
 function ganttRange(){return ganttYear===0?[0,24]:ganttYear===1?[0,12]:[12,24];}
-function setGanttUnit(u){
-  ganttUnit=u;
-  document.getElementById('gu-month').classList.toggle('active',u==='month');
-  document.getElementById('gu-week').classList.toggle('active',u==='week');
-  renderGantt();
-}
 function monthFracToWeek(m){
   // m=0 → start Jan2026, m=24 → end Dec2027 (=730 days total)
   if(m>=24) return 730/7;
@@ -757,180 +834,8 @@ function monthFracToWeek(m){
 }
 
 function renderGantt(){
-  renderLoadBar();
   const [vs,ve]=ganttRange();
-  const isWeek=ganttUnit==='week';
-  if(isWeek){ renderGanttWeekly(vs,ve); return; }
-  document.getElementById('g-lh-hdr').style.display='';
-  const wkStart=isWeek?monthFracToWeek(vs):0;
-  const wkEnd=isWeek?monthFracToWeek(ve):0;
-  function mPos(m){if(!isWeek)return(m-vs)*MONTH_W;return(monthFracToWeek(m)-wkStart)*WEEK_W;}
-  const TW=isWeek?(wkEnd-wkStart)*WEEK_W:(ve-vs)*MONTH_W;
-  const filtered=getFiltered();
-  document.getElementById('tb-count').textContent=`${filtered.length}/${data.length} 筆`;
-
-  // ── Header ──
-  const lhHdr=document.getElementById('g-lh-hdr'); lhHdr.style.width=LBL_W+'px';
-  const tlHdr=document.getElementById('g-tl-hdr'); tlHdr.style.width=TW+'px'; tlHdr.innerHTML='';
-
-  // Year stripes
-  [[0,12,'2026','#1A2340'],[12,24,'2027','#2E9E88']].forEach(([s,e,lbl,col])=>{
-    const ss=mPos(Math.max(vs,s)), ee=mPos(Math.min(ve,e)); if(ee<=ss)return;
-    const d=document.createElement('div'); d.className='g-yr-stripe'; d.textContent=lbl;
-    d.style.cssText=`left:${ss}px;width:${ee-ss}px;color:${col};font-size:11px;font-weight:800;background:${s===12?'#F0FBF8':''}`;
-    tlHdr.appendChild(d);
-  });
-  // Month row
-  const mrow=document.createElement('div'); mrow.className='g-month-row';
-  const now=new Date(); const nowM=(now.getFullYear()-2026)*12+now.getMonth();
-  for(let m=vs;m<ve;m++){
-    const mw=isWeek?(MONTH_DAYS_2Y[m]/7)*WEEK_W:MONTH_W;
-    const d=document.createElement('div'); d.className='g-mcol'+(m===nowM?' now':''); d.style.width=mw+'px';
-    d.textContent=MO_SHORT[m];
-    if(isWeek){
-      const days=MONTH_DAYS_2Y[m];
-      for(let wk=7;wk<days;wk+=7){const wl=document.createElement('div');wl.style.cssText=`position:absolute;left:${(wk/days)*mw}px;top:0;bottom:0;width:1px;background:#DDE3ED;pointer-events:none`;d.appendChild(wl);}
-      for(let wk=0;wk*7<days;wk++){const wx=(wk*7/days)*mw;const ww=Math.min((7/days)*mw,mw-wx);if(ww>10){const wn=document.createElement('div');wn.style.cssText=`position:absolute;left:${wx+1}px;width:${ww-2}px;bottom:2px;text-align:center;font-size:7px;color:#8899AA;pointer-events:none;overflow:hidden`;wn.textContent='W'+(wk+1);d.appendChild(wn);}}
-    } else {
-      [0.25,0.5,0.75].forEach(f=>{const w=document.createElement('div');w.style.cssText=`position:absolute;left:${f*mw}px;top:0;bottom:0;width:1px;background:#EEF1F6;pointer-events:none`;d.appendChild(w);});
-    }
-    mrow.appendChild(d);
-  } tlHdr.appendChild(mrow);
-
-  // Today in header
-  const tp=getTodayX(vs); if(tp>=0&&tp<=TW){
-    const tl=document.createElement('div');tl.className='g-today';tl.style.cssText=`position:absolute;left:${tp}px;top:20px;bottom:0;background:rgba(220,38,38,.5);z-index:8`;
-    const tlbl=document.createElement('div');tlbl.style.cssText=`position:absolute;left:${tp}px;top:20px;background:#DC2626;color:#fff;font-size:8px;font-weight:700;padding:1px 4px;border-radius:0 0 3px 0;z-index:9`;tlbl.textContent='今天';
-    tlHdr.appendChild(tl);tlHdr.appendChild(tlbl);
-  }
-
-  // ── Body ──
-  const body=document.getElementById('g-body'); body.innerHTML='';
-  const labelCol=document.createElement('div'); labelCol.className='g-label-col'; labelCol.style.width=LBL_W+'px';
-  const rightCol=document.createElement('div'); rightCol.className='g-right-col'; rightCol.style.minWidth=TW+'px';
-
-  // Load heatmap row
-  const load=calcLoad(), maxL=Math.max(...load.slice(vs,ve),1);
-  const loadLblDiv=document.createElement('div'); loadLblDiv.className='g-load-lbl'; loadLblDiv.style.cssText=`width:${LBL_W}px;min-height:26px`; loadLblDiv.textContent='量能';
-  const loadCellsDiv=document.createElement('div'); loadCellsDiv.className='g-load-cells'; loadCellsDiv.style.width=TW+'px';
-  for(let m=vs;m<ve;m++){
-    const cell=document.createElement('div'); cell.className='g-load-cell'; cell.style.width=(isWeek?(MONTH_DAYS_2Y[m]/7)*WEEK_W:MONTH_W)+'px';
-    const pct=(load[m]/maxL)*100;
-    const col=load[m]===0?'transparent':load[m]<=2?'#34D399':load[m]<=4?'#FBBF24':'#EF4444';
-    const fill=document.createElement('div'); fill.className='g-load-fill'; fill.style.cssText=`height:${pct}%;background:${col};opacity:.7`;
-    if(load[m]>0){const n=document.createElement('div');n.className='g-load-num';n.style.color=col;n.textContent=load[m];cell.appendChild(n);}
-    cell.appendChild(fill); loadCellsDiv.appendChild(cell);
-  }
-  const loadRow=document.createElement('div'); loadRow.className='g-load-row';
-  loadRow.appendChild(loadLblDiv); loadRow.appendChild(loadCellsDiv);
-  // Prepend to rightCol + labelCol via wrapper
-  const loadWrap=document.createElement('div'); loadWrap.style.cssText='display:flex;flex-shrink:0';
-  loadWrap.appendChild(loadRow); // will handle separately
-
-  // Group + rows
-  const groups={}; Object.keys(CATS).forEach(c=>groups[c]=[]);
-  filtered.forEach(r=>{if(groups[r.cat])groups[r.cat].push(r);});
-
-  // Load heatmap in both cols
-  const loadLblDiv2=document.createElement('div'); loadLblDiv2.className='g-load-lbl'; loadLblDiv2.style.cssText=`min-height:26px;border-bottom:1px solid var(--border)`;loadLblDiv2.textContent='量能';
-  const loadRightDiv=document.createElement('div'); loadRightDiv.style.cssText=`display:flex;background:#FAFBFD;border-bottom:1px solid var(--border);width:${TW}px`;
-  for(let m=vs;m<ve;m++){
-    const cw=isWeek?(MONTH_DAYS_2Y[m]/7)*WEEK_W:MONTH_W;
-    const cell=document.createElement('div'); cell.style.cssText=`flex-shrink:0;width:${cw}px;height:26px;position:relative;border-right:1px solid rgba(0,0,0,.04)`;
-    const pct=(load[m]/maxL)*100; const col=load[m]===0?'transparent':load[m]<=2?'#34D399':load[m]<=4?'#FBBF24':'#EF4444';
-    const fill=document.createElement('div'); fill.style.cssText=`position:absolute;bottom:0;left:2px;right:2px;height:${pct}%;background:${col};opacity:.7;border-radius:2px 2px 0 0`;
-    if(load[m]>0){const n=document.createElement('div');n.style.cssText=`position:absolute;top:2px;left:0;right:0;text-align:center;font-size:9px;font-weight:700;color:${col}`;n.textContent=load[m];cell.appendChild(n);}
-    cell.appendChild(fill); loadRightDiv.appendChild(cell);
-  }
-  labelCol.appendChild(loadLblDiv2); rightCol.appendChild(loadRightDiv);
-
-  Object.entries(groups).forEach(([cat,rows])=>{
-    if(!rows.length) return;
-    const col=CATS[cat];
-
-    // Group label
-    const glbl=document.createElement('div'); glbl.className='g-grp-lbl'; glbl.style.cssText=`width:${LBL_W}px;background:#EDF1F9;border-bottom:1px solid var(--border)`;
-    const gdot=document.createElement('div'); gdot.className='g-grp-dot'; gdot.style.background=col;
-    const gname=document.createElement('span'); gname.className='g-grp-name'; gname.style.color=col; gname.textContent=cat.replace('季節活動-','');
-    glbl.appendChild(gdot); glbl.appendChild(gname); labelCol.appendChild(glbl);
-
-    // Group timeline stripe
-    const gstripe=document.createElement('div'); gstripe.style.cssText=`background:#EDF1F9;border-bottom:1px solid var(--border);height:26px;width:${TW}px;position:relative`;
-    const gs2=document.createElement('div'); gs2.style.cssText=`position:absolute;inset:0;background:${col};opacity:.04`; gstripe.appendChild(gs2); rightCol.appendChild(gstripe);
-
-    rows.forEach(row=>{
-      const ROW_H=48;
-      // Label
-      const rlbl=document.createElement('div');
-      rlbl.style.cssText=`border-left:3px solid ${col};border-right:2px solid var(--border);border-bottom:1px solid var(--border);padding:5px 8px;min-height:${ROW_H}px;display:flex;flex-direction:column;justify-content:center;gap:3px;cursor:pointer;transition:background .15s`;
-      const rname=document.createElement('div'); rname.className='g-row-name'; rname.textContent=row.name;
-      const rmeta=document.createElement('div'); rmeta.className='g-row-meta';
-      row.depts.slice(0,3).forEach(d=>{const s=document.createElement('span');s.style.cssText=`padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700;color:#fff;background:${DEPTS[d]}`;s.textContent=d;rmeta.appendChild(s);});
-      const mtcfg=MT[row.mt]; if(mtcfg){const ms=document.createElement('span');ms.style.cssText=`font-size:9px`;ms.textContent=mtcfg.icon;rmeta.appendChild(ms);}
-      rlbl.appendChild(rname); rlbl.appendChild(rmeta); labelCol.appendChild(rlbl);
-      rlbl.onmouseenter=()=>rlbl.style.background='#F5F8FF';
-      rlbl.onmouseleave=()=>rlbl.style.background='';
-
-      // Bars
-      const rbars=document.createElement('div');
-      rbars.style.cssText=`position:relative;min-height:${ROW_H}px;width:${TW}px;border-bottom:1px solid var(--border);cursor:pointer`;
-      // Grid
-      for(let m=vs;m<ve;m++){
-        const x=mPos(m);
-        const gl=document.createElement('div'); gl.style.cssText=`position:absolute;left:${x}px;top:0;bottom:0;width:1px;background:${m%12===0?'#C5CDD8':'#E8EDF4'};pointer-events:none`; rbars.appendChild(gl);
-        if(isWeek){
-          const days=MONTH_DAYS_2Y[m];
-          for(let wk=7;wk<days;wk+=7){const wx=mPos(m+wk/days);const wl=document.createElement('div');wl.style.cssText=`position:absolute;left:${wx}px;top:0;bottom:0;width:1px;background:#EEF1F6;pointer-events:none`;rbars.appendChild(wl);}
-        } else {
-          [0.25,0.5,0.75].forEach(f=>{const wl=document.createElement('div');wl.style.cssText=`position:absolute;left:${x+f*MONTH_W}px;top:0;bottom:0;width:1px;background:#EEF1F6;pointer-events:none`;rbars.appendChild(wl);});
-        }
-      }
-      // Today
-      if(tp>=0&&tp<=TW){const tl=document.createElement('div');tl.className='g-today';tl.style.left=tp+'px';rbars.appendChild(tl);}
-
-      // Phase bars
-      const TRACKS={'召開會議':{top:8,h:13},'執行面':{top:26,h:10},'回報期':{top:26,h:10},'校內推廣期':{top:26,h:10}};
-      const ORDER=['校內推廣期','回報期','執行面','召開會議'];
-      const PH_FIELDS={'召開會議':'phMeet','執行面':'phExec','回報期':'phReport','校內推廣期':'phPromote'};
-      ORDER.forEach(phType=>{
-        const field=PH_FIELDS[phType]; const ranges=parsePhStr(row[field]);
-        ranges.forEach(({startM,endM})=>{
-          const ps=Math.max(startM,vs), pe=Math.min(endM,ve); if(pe<=ps) return;
-          const left=mPos(ps), width=mPos(pe)-mPos(ps); if(width<2) return;
-          const tk=TRACKS[phType]; const barCol=PH_COLORS[phType];
-          const bar=document.createElement('div'); bar.className='g-bar';
-          bar.style.cssText=`left:${left}px;width:${width}px;top:${tk.top}px;height:${tk.h}px;background:${barCol}`;
-          bar.title=`${phType}：${mi(startM)} → ${mi(endM)}`;
-          if(width>32){const lbl=document.createElement('span');lbl.className='g-bar-lbl';lbl.textContent=PH_SHORT[phType]||phType;bar.appendChild(lbl);}
-          if(phType==='召開會議'&&width>16){const mtcfg=MT[row.mt];if(mtcfg){const ic=document.createElement('span');ic.className='g-meet-icon';ic.textContent=mtcfg.icon;bar.appendChild(ic);}}
-          bar.onmouseenter=()=>bar.style.opacity='.75'; bar.onmouseleave=()=>bar.style.opacity='1';
-          rbars.appendChild(bar);
-        });
-      });
-
-      rightCol.appendChild(rbars);
-      rbars.onmouseenter=()=>{rbars.style.background='#F5F8FF';rlbl.style.background='#F5F8FF';};
-      rbars.onmouseleave=()=>{rbars.style.background='';rlbl.style.background='';};
-    });
-  });
-
-  body.appendChild(labelCol); body.appendChild(rightCol);
-
-  // Scroll sync
-  const scroll=document.getElementById('g-scroll');
-  const hdrScroll=document.getElementById('g-tl-hdr-scroll');
-  scroll.onscroll=()=>{hdrScroll.scrollLeft=scroll.scrollLeft;};
-}
-
-function getTodayX(vs){
-  const now=new Date();const y=now.getFullYear();
-  if(y<2026||y>2027) return -1;
-  const mf=(y-2026)*12+now.getMonth()+now.getDate()/30;
-  if(ganttUnit==='week'){
-    const wkS=monthFracToWeek(vs);
-    return(monthFracToWeek(mf)-wkS)*WEEK_W;
-  }
-  return(mf-vs)*MONTH_W;
+  renderGanttWeekly(vs,ve);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -938,7 +843,7 @@ function getTodayX(vs){
 // ═══════════════════════════════════════════════════════════════
 function switchView(v){
   currentView=v;
-  ['table','gantt','timeline'].forEach(t=>{
+  ['table','gantt','timeline','workload'].forEach(t=>{
     const tb=document.getElementById('tab-'+t);
     const vw=document.getElementById('view-'+t);
     if(tb) tb.classList.toggle('active',v===t);
@@ -946,6 +851,7 @@ function switchView(v){
   });
   if(v==='gantt') renderGantt();
   else if(v==='timeline') renderTimeline();
+  else if(v==='workload') renderWorkload();
   else renderTable();
 }
 
@@ -972,13 +878,6 @@ function exportExcel(){
   ws1['!freeze']={xSplit:0,ySplit:1};
   XLSX.utils.book_append_sheet(wb,ws1,'會議管理表');
 
-  // Sheet 2: 月度量能分析
-  const load=calcLoad();
-  const h2=['月份','召開會議次數','會議量能評估'];
-  const r2=MONTH_LABELS.map((m,i)=>[m, load[i], load[i]===0?'—':load[i]<=2?'✅ 正常':load[i]<=4?'⚠️ 注意':'🔴 高負載']);
-  const ws2=XLSX.utils.aoa_to_sheet([h2,...r2]);
-  ws2['!cols']=[{wch:12},{wch:14},{wch:14}];
-  XLSX.utils.book_append_sheet(wb,ws2,'月度量能分析');
 
   // Sheet 3: 依類別統計
   const cats=Object.keys(CATS);
@@ -1019,8 +918,7 @@ function toggleDone(){showDone=!showDone;if(currentView==='table')renderTable();
 // GANTT WEEKLY COLUMN VIEW
 // ═══════════════════════════════════════════════════════════════
 function renderGanttWeekly(vs, ve){
-  renderLoadBar();
-  const GCOL=120; // px per week column
+  const GCOL=130; // px per week column
   const PH_ORDER=['召開會議','執行面','校內推廣期','回報期'];
   const PH_FIELDS={'召開會議':'phMeet','執行面':'phExec','回報期':'phReport','校內推廣期':'phPromote'};
   const filtered=getFiltered();
@@ -1186,7 +1084,8 @@ function initFirebase(){
       }
       if(!_justSaved){
         const hadData=data.length>0;
-        data=val.activities;
+        data=val.activities.map(a=>{if(!a.status)a.status=a.done?'closed':'planning';if(!a.actions)a.actions=[];return a;});
+        if(val.categories){CATS=val.categories;Object.keys(CATS).forEach(c=>filterCats.add(c));buildFilterChips();}
         nextId=Math.max(...data.map(r=>r.id),199)+1;
         if(!editingCell) renderCurrent();
         if(hadData) showSyncToast('✓ 已同步最新資料');
@@ -1200,6 +1099,242 @@ function initFirebase(){
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// CATEGORY MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+function openCatModal(){
+  document.getElementById('cat-modal-overlay').classList.add('open');
+  renderCatModalBody();
+}
+function closeCatModal(){
+  document.getElementById('cat-modal-overlay').classList.remove('open');
+}
+function renderCatModalBody(){
+  const body=document.getElementById('cat-modal-body');
+  body.innerHTML='';
+  Object.entries(CATS).forEach(([name,color])=>{
+    const usage=data.filter(r=>r.cat===name).length;
+    const row=document.createElement('div'); row.className='cat-row'; row.dataset.orig=name;
+    row.innerHTML=`
+      <div class="cat-swatch" id="sw-${name}" style="background:${color}"></div>
+      <input class="cat-name-in" value="${name}" placeholder="類別名稱">
+      <input type="color" class="cat-color-in" value="${color}" title="選擇顏色">
+      <span class="cat-usage" title="${usage} 筆活動使用此類別">${usage} 筆</span>
+      <button class="cat-del" ${usage>0?'disabled title="有活動使用中，無法刪除"':''}>✕</button>
+    `;
+    // Live swatch update
+    const colorIn=row.querySelector('.cat-color-in');
+    const swatch=row.querySelector('.cat-swatch');
+    colorIn.oninput=()=>swatch.style.background=colorIn.value;
+    // Delete
+    const delBtn=row.querySelector('.cat-del');
+    if(usage===0) delBtn.onclick=()=>{row.remove();};
+    body.appendChild(row);
+  });
+  const addBtn=document.createElement('button');
+  addBtn.className='add-cat-btn'; addBtn.textContent='＋ 新增類別';
+  addBtn.onclick=()=>{
+    const n=document.createElement('div'); n.className='cat-row'; n.dataset.orig='__new__';
+    n.innerHTML=`
+      <div class="cat-swatch" style="background:#888888"></div>
+      <input class="cat-name-in" value="" placeholder="輸入類別名稱">
+      <input type="color" class="cat-color-in" value="#888888">
+      <span class="cat-usage">0 筆</span>
+      <button class="cat-del" onclick="this.closest('.cat-row').remove()">✕</button>
+    `;
+    n.querySelector('.cat-color-in').oninput=e=>n.querySelector('.cat-swatch').style.background=e.target.value;
+    body.insertBefore(n,addBtn);
+  };
+  body.appendChild(addBtn);
+}
+function saveCats(){
+  const rows=document.querySelectorAll('#cat-modal-body .cat-row');
+  const newCats={}, nameMap={};
+  rows.forEach(row=>{
+    const orig=row.dataset.orig;
+    const name=row.querySelector('.cat-name-in').value.trim();
+    const color=row.querySelector('.cat-color-in').value;
+    if(!name) return;
+    newCats[name]=color;
+    if(orig && orig!=='__new__' && orig!==name) nameMap[orig]=name;
+  });
+  if(Object.keys(newCats).length===0){alert('至少需要一個類別');return;}
+  // Rename categories in activities
+  Object.entries(nameMap).forEach(([old,nw])=>{
+    data.forEach(a=>{if(a.cat===old)a.cat=nw;});
+  });
+  CATS=newCats;
+  // Sync filterCats
+  [...filterCats].forEach(c=>{if(!CATS[c])filterCats.delete(c);});
+  Object.keys(CATS).forEach(c=>filterCats.add(c));
+  closeCatModal();
+  buildFilterChips();
+  save();
+  renderCurrent();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACTION ITEMS
+// ═══════════════════════════════════════════════════════════════
+let _apId=null;
+function openActionPanel(id){
+  _apId=id; const panel=document.getElementById('action-panel');
+  panel.classList.add('open'); renderActionPanel();
+}
+function closeActionPanel(){
+  document.getElementById('action-panel').classList.remove('open'); _apId=null;
+}
+function renderActionPanel(){
+  const act=data.find(r=>r.id===_apId); if(!act) return;
+  document.getElementById('ap-act-name').textContent=act.name;
+  const body=document.getElementById('ap-body'); body.innerHTML='';
+  const items=act.actions||[];
+  const doneN=items.filter(i=>i.done).length;
+  if(items.length===0){body.innerHTML='<div class="ap-empty">尚無行動項目<br>在下方新增 ↓</div>';return;}
+  const pct=items.length?(doneN/items.length*100):0;
+  const prog=document.createElement('div'); prog.className='ap-progress';
+  prog.innerHTML=`<span>${doneN}/${items.length} 已完成</span><div class="ap-prog-bar"><div class="ap-prog-fill" style="width:${pct}%"></div></div>`;
+  body.appendChild(prog);
+  const today=new Date().toISOString().slice(0,10);
+  items.forEach(item=>{
+    const row=document.createElement('div');
+    row.className='ap-item'+(item.done?' ap-done':'');
+    const overdue=item.due&&item.due<today&&!item.done;
+    const dueStr=item.due?new Date(item.due+'T00:00:00').toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'}):'';
+    row.innerHTML=`
+      <input type="checkbox" class="ap-cb" ${item.done?'checked':''} onchange="toggleAction(${_apId},${item.id})">
+      <div class="ap-ibody">
+        <div class="ap-itxt">${item.text}</div>
+        <div class="ap-imeta">
+          ${item.owner?`<span class="ap-iowner">👤 ${item.owner}</span>`:''}
+          ${dueStr?`<span class="ap-idue${overdue?' overdue':''}">📅 ${dueStr}${overdue?' ⚠️':''}</span>`:''}
+        </div>
+      </div>
+      <button class="ap-idel" onclick="delAction(${_apId},${item.id})">✕</button>`;
+    body.appendChild(row);
+  });
+}
+function addActionItem(){
+  const text=document.getElementById('ap-new-text').value.trim(); if(!text) return;
+  const owner=document.getElementById('ap-new-owner').value.trim();
+  const due=document.getElementById('ap-new-due').value;
+  const act=data.find(r=>r.id===_apId); if(!act) return;
+  if(!act.actions) act.actions=[];
+  act.actions.push({id:Date.now(),text,owner,due,done:false});
+  document.getElementById('ap-new-text').value='';
+  save(); renderActionPanel(); renderTable();
+}
+function toggleAction(actId,itemId){
+  const act=data.find(r=>r.id===actId); if(!act||!act.actions) return;
+  const item=act.actions.find(i=>i.id===itemId); if(item){item.done=!item.done; save(); renderActionPanel(); renderTable();}
+}
+function delAction(actId,itemId){
+  const act=data.find(r=>r.id===actId); if(!act||!act.actions) return;
+  act.actions=act.actions.filter(i=>i.id!==itemId); save(); renderActionPanel(); renderTable();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WORKLOAD VIEW
+// ═══════════════════════════════════════════════════════════════
+let wlYear=0;
+function setWlYear(v){
+  wlYear=v;
+  ['all','2026','2027'].forEach((id,i)=>document.getElementById('wl-yr-'+id).classList.toggle('active',i===v));
+  renderWorkload();
+}
+function renderWorkload(){
+  const range=wlYear===0?[0,24]:wlYear===1?[0,12]:[12,24];
+  const [vs,ve]=range;
+  const months=Array.from({length:ve-vs},(_,i)=>vs+i);
+  const PH_ALL=['phMeet','phExec','phReport','phPromote'];
+
+  // ── Heatmap: dept × month ──
+  const table=document.getElementById('wl-heat-table');
+  table.innerHTML='';
+  const hdr=document.createElement('tr');
+  hdr.innerHTML='<th>部門</th>'+months.map(m=>`<th>${MONTH_LABELS[m]}</th>`).join('');
+  table.appendChild(hdr);
+
+  Object.entries(DEPTS).forEach(([dept,col])=>{
+    const tr=document.createElement('tr');
+    let rowHtml=`<td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:4px"></span>${dept}</td>`;
+    months.forEach(m=>{
+      const cnt=data.filter(a=>a.depts.includes(dept)&&PH_ALL.some(f=>parsePhStr(a[f]).some(({startM,endM})=>startM<m+1&&endM>m))).length;
+      const cls=cnt===0?'wl-c0':cnt<=2?`wl-c${cnt}`:cnt<=4?`wl-c${cnt}`:`wl-c6`;
+      const safeC=Math.min(cnt,6);
+      rowHtml+=`<td class="wl-c${safeC}">${cnt||'—'}</td>`;
+    });
+    tr.innerHTML=rowHtml; table.appendChild(tr);
+  });
+
+  // ── Person summary ──
+  const personMap={};
+  data.forEach(act=>{
+    if(!act.leadPerson) return;
+    act.leadPerson.split(/[+、，,＋\s]+/).forEach(p=>{
+      p=p.trim(); if(!p||p.length<2) return;
+      personMap[p]=(personMap[p]||0)+1;
+    });
+  });
+  const sortedPersons=Object.entries(personMap).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const personsDiv=document.getElementById('wl-persons');
+  personsDiv.innerHTML=sortedPersons.map(([n,c])=>`
+    <div class="wl-person">
+      <div class="wl-pname">${n}</div>
+      <div class="wl-pcount">${c} 項活動</div>
+    </div>`).join('');
+  if(!sortedPersons.length) personsDiv.innerHTML='<span style="color:var(--muted);font-size:12px">尚無負責人資料</span>';
+
+  // ── Status summary ──
+  const statusDiv=document.getElementById('wl-status-summary');
+  statusDiv.innerHTML=Object.entries(STATUS_CFG).map(([k,v])=>{
+    const cnt=data.filter(a=>getStatus(a)===k).length;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:9px;border:1px solid var(--border);background:#F8FAFF">
+      <span style="font-size:22px">${v.icon}</span>
+      <div><div style="font-size:20px;font-weight:800;color:var(--text)">${cnt}</div><div style="font-size:11px;color:var(--muted)">${v.label}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ICAL EXPORT
+// ═══════════════════════════════════════════════════════════════
+function exportIcal(){
+  const pad2=n=>String(n).padStart(2,'0');
+  function mIdxToDate(m){
+    const y=2026+Math.floor(m/12), mo=(Math.floor(m)%12)+1;
+    return `${y}${pad2(mo)}01`;
+  }
+  const lines=[
+    'BEGIN:VCALENDAR','VERSION:2.0',
+    'PRODID:-//耶加教育機構//MeetingPlanner//ZH',
+    'CALSCALE:GREGORIAN','X-WR-CALNAME:耶加教育機構 會議行程',
+    'X-WR-TIMEZONE:Asia/Taipei','X-APPLE-CALENDAR-COLOR:#1B5E99',
+  ];
+  const esc=s=>(s||'').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
+  data.forEach(act=>{
+    if(getStatus(act)==='closed') return;
+    parsePhStr(act.phMeet).forEach(({startM,endM},idx)=>{
+      const dtS=mIdxToDate(startM);
+      const eM=Math.ceil(endM); const dtE=eM>=24?'20280101':mIdxToDate(eM);
+      const uid=`aplus-${act.id}-${idx}@aplus-meeting`;
+      const mt=MT[act.mt]?MT[act.mt].icon+' '+act.mt:act.mt;
+      lines.push('BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTART;VALUE=DATE:${dtS}`,
+        `DTEND;VALUE=DATE:${dtE}`,
+        `SUMMARY:📋 ${esc(act.name)}`,
+        `DESCRIPTION:會議類型：${esc(mt)}\\n部門：${esc(act.depts.join('、'))}\\n負責人：${esc(act.leadPerson)}\\n${esc(act.notes)}`,
+        `CATEGORIES:${esc(act.cat)}`,
+        'END:VEVENT');
+    });
+  });
+  lines.push('END:VCALENDAR');
+  const blob=new Blob([lines.join('\r\n')],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='耶加教育機構_會議行程.ics'; a.click();
+}
 // ═══════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════
@@ -1254,7 +1389,6 @@ function buildTlChip(act,phType){
 }
 
 function renderTimeline(){
-  renderLoadBar();
   const [vs,ve]=tlRange();
   const filtered=getFiltered();
   document.getElementById('tb-count').textContent=`${filtered.length}/${data.length} 筆`;
@@ -1343,5 +1477,69 @@ function renderTimeline(){
 }
 
 </script>
+<!-- CATEGORY MANAGEMENT MODAL -->
+<div class="modal-overlay" id="cat-modal-overlay">
+  <div class="modal" style="width:440px;max-height:80vh">
+    <div class="modal-header">
+      <div class="modal-title">⚙ 管理會議類別</div>
+      <button class="modal-close" onclick="closeCatModal()">✕</button>
+    </div>
+    <div class="modal-body" id="cat-modal-body" style="gap:0;padding:16px"></div>
+    <div class="modal-footer">
+      <button class="m-btn cancel" onclick="closeCatModal()">取消</button>
+      <button class="m-btn save" onclick="saveCats()">儲存類別</button>
+    </div>
+  </div>
+</div>
+
+<!-- WORKLOAD VIEW -->
+<div id="view-workload">
+  <div class="wl-card">
+    <div class="wl-card-title">📅 部門月度參與熱力圖
+      <div class="wl-year-toggle" style="margin-bottom:0;margin-left:auto">
+        <button class="yr-tab active" id="wl-yr-all"  onclick="setWlYear(0)">全覽</button>
+        <button class="yr-tab"        id="wl-yr-2026" onclick="setWlYear(1)">2026</button>
+        <button class="yr-tab"        id="wl-yr-2027" onclick="setWlYear(2)">2027</button>
+      </div>
+    </div>
+    <table class="wl-table" id="wl-heat-table"></table>
+    <div style="display:flex;gap:6px;align-items:center;margin-top:10px;font-size:10px;color:var(--muted)">
+      <span>活動量：</span>
+      <span style="background:#DCFCE7;color:#14532D;padding:1px 8px;border-radius:4px;font-weight:700">1–2</span>
+      <span style="background:#FEF9C3;color:#713F12;padding:1px 8px;border-radius:4px;font-weight:700">3–4</span>
+      <span style="background:#FECACA;color:#991B1B;padding:1px 8px;border-radius:4px;font-weight:700">5+</span>
+    </div>
+  </div>
+  <div class="wl-card">
+    <div class="wl-card-title">👤 負責人參與統計</div>
+    <div class="wl-persons" id="wl-persons"></div>
+  </div>
+  <div class="wl-card">
+    <div class="wl-card-title">📋 活動狀態總覽</div>
+    <div id="wl-status-summary" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- ACTION ITEMS PANEL -->
+<div class="action-panel" id="action-panel">
+  <div class="ap-hdr">
+    <div class="ap-hdr-top">
+      <div class="ap-title">📋 行動項目</div>
+      <button class="ap-close" onclick="closeActionPanel()">✕</button>
+    </div>
+    <div class="ap-act-name" id="ap-act-name">—</div>
+  </div>
+  <div class="ap-body" id="ap-body"></div>
+  <div class="ap-add">
+    <div class="ap-add-lbl">新增行動項目</div>
+    <input class="ap-inp ap-inp-text" id="ap-new-text" placeholder="事項內容…" onkeydown="if(event.key==='Enter')addActionItem()">
+    <div class="ap-add-row">
+      <input class="ap-inp ap-inp-owner" id="ap-new-owner" placeholder="負責人">
+      <input class="ap-inp ap-inp-due" id="ap-new-due" type="date" title="截止日期">
+      <button class="ap-add-btn" onclick="addActionItem()">＋ 新增</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

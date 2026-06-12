@@ -197,6 +197,20 @@ td:last-child{border-right:none}
 .tl-empty{color:#C8D0DC;font-size:11px}
 .tl-leg{display:flex;gap:10px;margin-left:auto;align-items:center;flex-wrap:wrap}
 
+
+/* ─── GANTT WEEKLY COLUMN VIEW ─── */
+.gw-wrap{display:flex;width:fit-content;align-items:flex-start;position:relative}
+.gw-col{flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px;padding:5px 4px;min-height:60px;position:relative;z-index:1}
+.gw-col.gw-today{background:#FFFBEB}
+.gw-col.gw-month-end{border-right:2px solid #B0BAC8!important}
+.gw-tag{display:flex;align-items:center;gap:3px;padding:3px 5px 3px 7px;border-radius:4px;border:1px solid rgba(0,0,0,.07);border-left-width:3px;background:#fff;font-size:10px;cursor:pointer;transition:background .12s;overflow:hidden;white-space:nowrap}
+.gw-tag:hover{background:#EEF3FF;border-color:#C5D2EE}
+.gw-tag-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;max-width:76px;flex:1}
+.gw-tag-depts{display:flex;gap:1px;flex-shrink:0}
+.gw-tag-icon{font-size:9px;flex-shrink:0;line-height:1}
+.gw-today-shade{position:absolute;inset:0;background:rgba(220,38,38,.035);pointer-events:none;z-index:0}
+.gw-empty{font-size:10px;color:#CDD3DC;padding:2px 0}
+
 </style>
 </head>
 <body>
@@ -358,14 +372,13 @@ td:last-child{border-right:none}
 //    步驟：Firebase Console → 專案設定 → 新增網頁應用程式 → 複製 firebaseConfig
 // ═══════════════════════════════════════════════════════════════
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDxw9s2O7qYZlLZGnTTAgUEA6DOKYl47PE",
-  authDomain: "aplus-meeting-69646.firebaseapp.com",
-  databaseURL: "https://aplus-meeting-69646-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "aplus-meeting-69646",
-  storageBucket: "aplus-meeting-69646.firebasestorage.app",
-  messagingSenderId: "760228493534",
-  appId: "1:760228493534:web:a2bbb58574dcf52a8c2a4f",
-  measurementId: "G-5KK6FK9VXZ"
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL:       "https://YOUR_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -746,6 +759,8 @@ function renderGantt(){
   renderLoadBar();
   const [vs,ve]=ganttRange();
   const isWeek=ganttUnit==='week';
+  if(isWeek){ renderGanttWeekly(vs,ve); return; }
+  document.getElementById('g-lh-hdr').style.display='';
   const wkStart=isWeek?monthFracToWeek(vs):0;
   const wkEnd=isWeek?monthFracToWeek(ve):0;
   function mPos(m){if(!isWeek)return(m-vs)*MONTH_W;return(monthFracToWeek(m)-wkStart)*WEEK_W;}
@@ -997,6 +1012,117 @@ function importJSON(){
 function resetData(){if(!confirm('確定還原所有預設資料？'))return;data=JSON.parse(JSON.stringify(DEFAULT_DATA));nextId=200;save();if(currentView==='table')renderTable();else renderGantt();}
 function toggleDone(){showDone=!showDone;if(currentView==='table')renderTable();else renderGantt();}
 
+
+
+// ═══════════════════════════════════════════════════════════════
+// GANTT WEEKLY COLUMN VIEW
+// ═══════════════════════════════════════════════════════════════
+function renderGanttWeekly(vs, ve){
+  renderLoadBar();
+  const GCOL=120; // px per week column
+  const PH_ORDER=['召開會議','執行面','校內推廣期','回報期'];
+  const PH_FIELDS={'召開會議':'phMeet','執行面':'phExec','回報期':'phReport','校內推廣期':'phPromote'};
+  const filtered=getFiltered();
+  document.getElementById('tb-count').textContent=`${filtered.length}/${data.length} 筆`;
+
+  const wStart=Math.floor(monthFracToWeek(vs));
+  const wEnd=Math.ceil(monthFracToWeek(ve));
+  const TW=(wEnd-wStart)*GCOL;
+
+  // Hide label col header, use full width for timeline
+  const lhHdr=document.getElementById('g-lh-hdr');
+  lhHdr.style.display='none';
+
+  // ── Header: month stripe + week labels ──
+  const tlHdr=document.getElementById('g-tl-hdr');
+  tlHdr.style.width=TW+'px'; tlHdr.innerHTML='';
+
+  // Month header row (height 20px)
+  let curM=-1, mWiStart=wStart;
+  for(let wi=wStart;wi<=wEnd;wi++){
+    const m=wi<wEnd?getMonthOfWeek(wi):-1;
+    if(m!==curM){
+      if(curM>=0){
+        const d=document.createElement('div'); d.className='g-yr-stripe';
+        const left=(mWiStart-wStart)*GCOL, width=(wi-mWiStart)*GCOL;
+        d.style.cssText=`left:${left}px;width:${width}px;font-size:10px;font-weight:800;color:${curM<12?'#1A2340':'#2E9E88'};background:${curM<12?'':'#F0FBF8'};border-right:2px solid #B0BAC8`;
+        d.textContent=MONTH_LABELS[curM]; tlHdr.appendChild(d);
+        mWiStart=wi;
+      }
+      curM=m;
+    }
+  }
+
+  // Week label row (below month row)
+  const now=new Date();
+  const todayW=Math.floor(monthFracToWeek((now.getFullYear()-2026)*12+now.getMonth()+now.getDate()/30));
+  const wkRow=document.createElement('div'); wkRow.style.cssText='display:flex;padding-top:20px';
+  for(let wi=wStart;wi<wEnd;wi++){
+    const m=getMonthOfWeek(wi);
+    const wInM=wi-Math.floor(monthFracToWeek(m));
+    const isToday=wi===todayW;
+    const d=document.createElement('div');
+    d.style.cssText=`flex-shrink:0;width:${GCOL}px;padding:3px 4px 2px;text-align:center;border-right:1px solid #E8EDF4;background:${isToday?'#FFF9EB':''}`;
+    d.innerHTML=`<div style="font-size:11px;font-weight:800;color:${isToday?'#DC2626':'var(--text)'}">W${wInM+1}${isToday?' ◀今':''}</div><div style="font-size:9px;color:var(--muted);margin-top:1px">${weekIdxToRange(wi)}</div>`;
+    wkRow.appendChild(d);
+  } tlHdr.appendChild(wkRow);
+
+  // ── Body: week columns with stacked tags ──
+  const body=document.getElementById('g-body');
+  body.innerHTML=''; body.style.cssText='display:block;';
+
+  const wrap=document.createElement('div'); wrap.className='gw-wrap';
+  wrap.style.width=TW+'px';
+
+  for(let wi=wStart;wi<wEnd;wi++){
+    const isToday=wi===todayW;
+    const m=getMonthOfWeek(wi);
+    const isMonthEnd=(wi+1>=wEnd||getMonthOfWeek(wi+1)!==m);
+
+    const col=document.createElement('div');
+    col.className='gw-col'+(isToday?' gw-today':'')+(isMonthEnd?' gw-month-end':'');
+    col.style.width=GCOL+'px';
+
+    if(isToday){const shade=document.createElement('div');shade.className='gw-today-shade';col.appendChild(shade);}
+
+    // Collect active phases (齊頭式: 召開 first → 執行 → 推廣 → 回報)
+    const tags=[];
+    PH_ORDER.forEach(phType=>{
+      filtered.forEach(act=>{
+        parsePhStr(act[PH_FIELDS[phType]]).forEach(({startM,endM})=>{
+          if(monthFracToWeek(startM)<wi+1&&monthFracToWeek(endM)>wi)
+            tags.push({act,phType});
+        });
+      });
+    });
+
+    if(tags.length===0){
+      const em=document.createElement('div'); em.className='gw-empty'; em.textContent='—'; col.appendChild(em);
+    } else {
+      tags.forEach(({act,phType})=>{
+        const tag=document.createElement('div'); tag.className='gw-tag';
+        tag.style.borderLeftColor=PH_COLORS[phType];
+        const mtcfg=MT[act.mt];
+        const deptHtml=act.depts.slice(0,2).map(d=>`<span style="background:${DEPTS[d]||'#888'};color:#fff;padding:0 3px;border-radius:2px;font-size:8px;font-weight:700">${d.slice(0,2)}</span>`).join('');
+        tag.innerHTML=`${mtcfg?`<span class="gw-tag-icon">${mtcfg.icon}</span>`:''}<span class="gw-tag-name" title="${act.name}">${act.name}</span><span class="gw-tag-depts">${deptHtml}</span>`;
+        tag.onclick=()=>switchView('table');
+        col.appendChild(tag);
+      });
+    }
+    wrap.appendChild(col);
+  }
+  body.appendChild(wrap);
+
+  // Scroll sync
+  const scroll=document.getElementById('g-scroll');
+  const hdrScroll=document.getElementById('g-tl-hdr-scroll');
+  scroll.onscroll=()=>{hdrScroll.scrollLeft=scroll.scrollLeft;};
+
+  // Auto-scroll to today
+  if(todayW>=wStart&&todayW<wEnd){
+    setTimeout(()=>{ scroll.scrollLeft=Math.max(0,(todayW-wStart)*GCOL-window.innerWidth/2); },120);
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════
 // FIREBASE SYNC
